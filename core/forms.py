@@ -7,6 +7,7 @@ User = get_user_model()
 class UserRegisterForm(UserCreationForm):
     ROLE_CHOICES = (
         ('landlord', 'Landlord'),
+        ('tenant', 'Tenant'),
     )
 
     role = forms.ChoiceField(choices=ROLE_CHOICES, widget=forms.RadioSelect)
@@ -35,9 +36,9 @@ class UserRegisterForm(UserCreationForm):
         user = super().save(commit=False)
         role = self.cleaned_data.get('role')
         if role == 'landlord':
-            user.is_landlord = True
-        else:
-            user.is_tenant = True
+            user.app_level_role = 'landlord'
+        elif role == 'tenant':
+            user.app_level_role = "tenant"
         if commit:
             user.save()
         return user

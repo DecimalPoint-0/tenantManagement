@@ -30,7 +30,7 @@
                         <h5>Log in</h5>
                     </div>
                     {% for message in messages %}
-                    <div class="text-white text-center p-2 rounded mb-2 {% if message.tags == 'error' %}bg-red{% elif message.tags == 'success' %}bg-green{% elif message.tags == 'warning' %}bg-yellow{% else %}bg-blue{% endif %}">
+                    <div class="text-white alert text-center p-2 rounded mb-2 {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-info{% else %}alert-warning{% endif %}">
                         {{ message }}
                     </div>
                     {% endfor %}
@@ -59,10 +59,13 @@
                         </div>
                         <button type="submit" class="btn btn-primary btn-block waves-effect waves-light">SIGN IN</button>                        
                         <div class="signin_with mt-3">
-                            <p class="mb-0">or Sign Up using</p>
-                            <button class="btn btn-primary btn-icon btn-icon-mini btn-round facebook"><i class="zmdi zmdi-facebook"></i></button>
+                            
+                            <a href="{% url 'register' %}">
+                                <p class="mb-0">or Sign Up here</p>
+                            </a>
+                            <!-- <button class="btn btn-primary btn-icon btn-icon-mini btn-round facebook"><i class="zmdi zmdi-facebook"></i></button>
                             <button class="btn btn-primary btn-icon btn-icon-mini btn-round twitter"><i class="zmdi zmdi-twitter"></i></button>
-                            <button class="btn btn-primary btn-icon btn-icon-mini btn-round google"><i class="zmdi zmdi-google-plus"></i></button>
+                            <button class="btn btn-primary btn-icon btn-icon-mini btn-round google"><i class="zmdi zmdi-google-plus"></i></button> -->
                         </div>
                     </div>
                 </form>
