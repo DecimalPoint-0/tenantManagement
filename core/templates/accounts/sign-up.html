@@ -25,6 +25,7 @@
             <div class="col-lg-4 col-sm-12">
                 <form method="post" class="card auth_form">
                     {% csrf_token %}
+                    {{ form.non_field_errors }}
                     <div class="header">
                         <img class="logo" src="{% static 'assets/images/logo.svg' %}" alt="">
                         <h5>Sign Up</h5>
@@ -34,6 +35,9 @@
                       {% for field in form %}
                         <div class="input-group mb-3">
                             {{ field }}
+                            <div class="mt-2 alert-danger">
+                              {{ field.errors }}
+                            </div>
                         </div>
                       {% endfor %}
                         <div class="checkbox">
