@@ -169,7 +169,7 @@
                 <ul class="ml-menu">
                     <li><a href="{% url 'properties' %}">List of Properties</a></li>
                     {% if request.user.app_level_role == 'landlord' %}
-                    <li><a href="file-documents.html">Add a property</a></li>
+                    <li><a href="{% url 'property-create' %}">Add a property</a></li>
                     {% endif %}
                 </ul>
             </li>

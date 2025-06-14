@@ -62,6 +62,7 @@ class Property(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField()
     description = models.TextField(blank=True)
+    image = models.FileField(upload_to='property', null=True)
     number_of_units = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
 

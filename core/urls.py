@@ -13,6 +13,8 @@ urlpatterns = [
     # dashboard urls
     path('dashboard', views.dashboard, name='dashboard'),
     path('properties', views.properties, name='properties'),
+    path('properties/<int:id>/', views.property_details, name='property-details'),
+    path('property/create', views.CreateProperty.as_view(), name='property-create'),
 
     # logout
     path('logout', views.logout_view, name='logout'),

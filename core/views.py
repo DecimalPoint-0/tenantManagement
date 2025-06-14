@@ -6,6 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView, TemplateView
 
 
 def login_view(request):
@@ -76,5 +78,28 @@ def properties(request):
         else:
             properties = models.Property.objects.all()
 
-    return render(request, 'dashboard/properties.html', {'properties': properties})
+    return render(request, 'dashboard/property/list.html', {'properties': properties})
 
+
+def property_details(request, id):
+    """Property details view"""
+    
+    print(id)
+    property = models.Property.objects.get(id=id)
+    return render(request, 'dashboard/property/details.html', {'property': property})
+
+
+
+class CreateProperty(CreateView):
+    template_name = 'dashboard/property/create.html'
+    model = models.Property
+    fields = '__all__'
+    def get_context_data(self, *args, **kwargs):
+        context = super(CreateProperty, self).get_context_data(**kwargs)
+        return context
+    def form_valid(self, form):
+        messages.success(self.request, "Property created successfully")
+        return super(CreateProperty, self).form_valid(form)
+    def form_invalid(self, form):
+        messages.success(self.request, "An error occured while creating the property!")
+        return super(CreateProperty, self).form_invalid(form)
