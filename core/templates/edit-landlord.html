@@ -1,0 +1,98 @@
+{% extends './index.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid" style="margin-top: 100px; background-color: white; padding: 16px;">
+	<form action="" id="edit-landlord" data-url="{% url 'edit-landlord' landlord.id %}">
+		{% csrf_token %}
+		<input type="hidden" name="id" value="">
+		<div class="card-header mb-4">
+				Landlord Form
+		</div>
+
+		<div class="card-body">
+
+			<div class="row form-group">
+				<div class="col-md-4">
+					<label for="" class="control-label">Email Address</label>
+					<input type="email" class="form-control" name="email"  value="{{ landlord.email }}" required>
+				</div>
+				<div class="col-md-4">
+					<label for="" class="control-label">First Name</label>
+					<input type="text" class="form-control" name="firstname"  value="{{ landlord.first_name }}" required>
+				</div>
+				<div class="col-md-4">
+					<label for="" class="control-label">Last Name</label>
+					<input type="text" class="form-control" name="lastname"  value="{{ landlord.last_name }}">
+				</div>
+			</div>
+		</div>
+		<div class="card-footer">
+			<div class="row">
+				<div class="col-md-12">
+					<button class="btn btn-sm btn-primary col-sm-3 offset-md-3"> Save</button>
+					<button class="btn btn-sm btn-default col-sm-3" type="reset" > Cancel</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	
+	$('#edit-landlord').submit(function(e){
+		e.preventDefault()
+		start_load()
+		$('#msg').html('')
+		var url = $(this).attr('data-url');
+		$.ajax({
+			url: url,
+			data: new FormData($(this)[0]),
+		    cache: false,
+		    contentType: false,
+		    processData: false,
+		    method: 'POST',
+		    type: 'POST',
+			success:function(resp){
+				console.log(resp)
+				if(resp.code == '201'){
+					Swal.fire({
+						icon: 'success',
+						title: "Success",
+						text: resp?.message,
+						showConfirmButton: false,
+						position: "top",
+						toast: true,
+						timer: 2500,
+						timerProgressBar: true,
+					});
+					setTimeout(function(){
+						location.href = "{% url 'landlords' %}";
+					},1500)
+				}else{
+					Swal.fire({
+						icon: 'error',
+						title: "Error",
+						text: resp?.message,
+						showConfirmButton: false,
+						position: "top",
+						toast: true,
+						timer: 1500,
+						timerProgressBar: true,
+					});
+				}
+        	},
+			error: function(xhr) {
+            console.log(xhr);
+            const errorMsg = xhr.responseJSON?.error || 'Something went wrong';
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: errorMsg,
+            });
+		}
+		})
+	});
+</script>
+
+
+{% endblock body %}

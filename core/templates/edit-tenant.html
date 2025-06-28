@@ -1,0 +1,154 @@
+{% extends './index.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid" style="margin-top: 100px; background-color: white; padding: 16px;">
+	<form action="" id="edit-tenant">
+		{% csrf_token %}
+		<input type="hidden" name="id" value="">
+		<div class="card-header mb-4">
+				Tenant Form
+		</div>
+
+		<div class="card-body">
+
+			<div class="row form-group">
+				<div class="col-md-4">
+					<label for="" class="control-label">Email Address</label>
+					<input type="email" class="form-control" name="email"  value="{{ tenant.user.email }}" required>
+				</div>
+				<div class="col-md-4">
+					<label for="" class="control-label">First Name</label>
+					<input type="text" class="form-control" name="firstname"  value="{{ tenant.user.first_name }}" required>
+				</div>
+				<div class="col-md-4">
+					<label for="" class="control-label">Last Name</label>
+					<input type="text" class="form-control" name="lastname"  value="{{ tenant.user.last_name }}">
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-md-4">
+					<label for="" class="control-label">Property</label>
+					<select name="property" id="property-select" class="custom-select select2" required>
+						<option value="{{ tenant.unit.property.id }}" disabled selected>Select property</option>
+						{% for property in properties %}
+						<option value="{{ property.id }}">{{ property.name }}</option>
+						{% endfor %}
+				</select>
+				</div>
+				<div class="col-md-4">
+					<label for="" class="control-label">Contact</label>
+					<input type="text" class="form-control" name="contact"  value="{{ tenant.unit.emergency_contact }}" required>
+				</div>
+				
+			</div>
+			<div class="form-group row">
+				<div class="col-md-4">
+					<label for="" class="control-label">Current Unit</label>
+					<select name="unit" id="unit-select" class="custom-select select2" required>
+						<option value="{{ tenant.unit.unit_number }}" disabled selected>Select unit</option>
+					</select>
+				</div>
+				<div class="col-md-4">
+					<label for="" class="control-label">Lease Start Date</label>
+					<input type="date" class="form-control" name="date_in"  value="{{ tenant.unit.lease_start_date }}" required>
+				</div>
+				<div class="col-md-4">
+					<label for="" class="control-label">Lease Duration</label>
+					<input type="number" class="form-control" name="duration"  value="" required>
+				</div>
+			</div>
+		</div>
+		<div class="card-footer">
+			<div class="row">
+				<div class="col-md-12">
+					<button class="btn btn-sm btn-primary col-sm-3 offset-md-3"> Save</button>
+					<button class="btn btn-sm btn-default col-sm-3" type="reset" > Cancel</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	
+	$('#edit-tenant').submit(function(e){
+		e.preventDefault()
+		start_load()
+		$('#msg').html('')
+		$.ajax({
+			url: "{% url 'edit-tenant' %}",
+			data: new FormData($(this)[0]),
+		    cache: false,
+		    contentType: false,
+		    processData: false,
+		    method: 'POST',
+		    type: 'POST',
+			success:function(resp){
+				console.log(resp)
+				if(resp.code == '201'){
+					Swal.fire({
+						icon: 'success',
+						title: "Success",
+						text: resp?.message,
+						showConfirmButton: false,
+						position: "top",
+						toast: true,
+						timer: 2500,
+						timerProgressBar: true,
+					});
+					setTimeout(function(){
+						location.href = "{% url 'tenants' %}";
+					},1500)
+				}else{
+					Swal.fire({
+						icon: 'error',
+						title: "Error",
+						text: resp?.message,
+						showConfirmButton: false,
+						position: "top",
+						toast: true,
+						timer: 1500,
+						timerProgressBar: true,
+					});
+				}
+        	},
+			error: function(xhr) {
+            console.log(xhr);
+            const errorMsg = xhr.responseJSON?.error || 'Something went wrong';
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: errorMsg,
+            });
+		}
+		})
+	});
+
+	$('#property-select').on('change', function () {
+        const propertyId = $(this).val();
+
+        $.ajax({
+            url: `/get-units-by-property/${propertyId}/`,
+            method: 'GET',
+            success: function (data) {
+                const unitSelect = $('#unit-select');
+                unitSelect.empty();
+                unitSelect.append('<option value="" disabled selected>Select unit</option>');
+
+                if (data.units.length > 0) {
+                    data.units.forEach(unit => {
+                        unitSelect.append(`<option value="${unit.id}">${unit.unit_number}</option>`);
+                    });
+                } else {
+                    unitSelect.append('<option value="" disabled>No units available</option>');
+                }
+            },
+            error: function () {
+                alert("Error fetching units.");
+            }
+        });
+    });
+</script>
+
+
+{% endblock body %}

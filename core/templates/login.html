@@ -1,0 +1,173 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="assets/font-awesome/css/all.min.css">
+
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/DataTables/datatables.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/jquery.datetimepicker.min.css' %} " rel="stylesheet">
+  <link href="{% static 'assets/css/select2.min.css' %}" rel="stylesheet">
+
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="assets/css/jquery-te-1.4.0.css">
+  <div id="page"></div>
+  <div id="loading"></div>
+
+  <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/DataTables/datatables.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'assets/vendor/venobox/venobox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/counterup/counterup.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/select2.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/jquery.datetimepicker.full.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/font-awesome/js/all.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'assets/js/jquery-te-1.4.0.min.js' %}" charset="utf-8"></script>
+
+  <title> {{ settings.name }}</title>
+
+
+</head>
+<style>
+	.field-icon {
+	position: absolute;
+		top: 18px;
+			right: 30px;
+			font-size: 20px;
+			z-index: 2;
+	}
+
+</style>
+
+<body>
+
+
+  <main id="main" class="row bg-white">
+  	<div class="col-md-6 p-0">
+  		<div id="login-left" class="bg-white">
+  			<img src="{% static 'assets/img/login.jpg' %}" width="100%" class="vh-100">
+  		</div>
+  	</div>
+  	<div class="col-md-6">
+  		<div class="text-center mb-5 pt-5">
+         <a href="index.php" class="logo logo-admin"><img src="{% static 'assets/img/logo.png' %}" alt="logo" width="250px"></a>
+      	</div>
+  		<div id="login-right" class="bg-white">
+  			<div class="w-100">
+			<h4 class="text-dark text-center"><b>{{settings.name}}</b></h4>
+			
+  			<div class="card border-0 col-md-8 mx-auto">
+  				<div class="card-body">
+  					<form id="login-form" >
+              {% csrf_token %}
+  						<div class="form-group">
+  							<label for="username" class="control-label">Enter Email</label>
+  							<input type="email" id="username" name="email" class="form-control" placeholder="Email">
+  						</div>
+  						<div class="form-group bg-black">
+  							<label class="control-label">Password</label>
+  							<input type="password" id="password-field" name="password" class="form-control" placeholder="Password">
+  							<!-- <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span> -->
+  						</div>
+  						<div class="g-recaptcha pb-3 mt-3" data-sitekey=""></div>
+  						<center><button class="btn btn-primary btn-block waves-effect waves-light py-2 btn-1">Login</button></center>
+  					</form>
+  				</div>
+  			</div>
+  			</div>
+  		</div>
+   </div>
+
+  </main>
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+	$('#login-form').submit(function(e){
+		e.preventDefault()
+		console.log("I got here")
+		$('#login-form button[type="button"]').attr('disabled',true).html('Logging in...');
+		if($(this).find('.alert-danger').length > 0 )
+			$(this).find('.alert-danger').remove();
+		$.ajax({
+			url:"{% url 'login' %}",
+			method:'POST',
+			data:$(this).serialize(),
+			error:err=>{
+				console.log(err)
+		$('#login-form button[type="button"]').removeAttr('disabled').html('Login');
+
+			},
+			success:function(resp){
+        console.log(resp)
+				if(resp.code == '200'){
+					location.href ='dashboard';
+				}else{
+					$('#login-form').prepend('<div class="alert alert-danger">Username or password is incorrect.</div>')
+					$('#login-form button[type="button"]').removeAttr('disabled').html('Login');
+				}
+			}
+		})
+	})
+</script>	
+
+<script>
+$(".toggle-password").click(function() {
+
+  $(this).toggleClass("fa-eye fa-eye-slash");
+  var input = $($(this).attr("toggle"));
+  if (input.attr("type") == "password") {
+    input.attr("type", "text");
+  } else {
+    input.attr("type", "password");
+  }
+});
+  </script>
+
+  <script type="text/javascript">
+  function onReady(callback) {
+    var intervalID = window.setInterval(checkReady, 1000);
+    function checkReady() {
+        if (document.getElementsByTagName('body')[0] !== undefined) {
+            window.clearInterval(intervalID);
+            callback.call(this);
+        }
+    }
+}
+
+function show(id, value) {
+    document.getElementById(id).style.display = value ? 'block' : 'none';
+}
+
+onReady(function () {
+    show('page', true);
+    show('loading', false);
+});
+</script>
+
+</html>

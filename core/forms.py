@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 
+from core.models import Property
+
 User = get_user_model()
 
 class UserRegisterForm(UserCreationForm):
@@ -37,7 +39,8 @@ class UserRegisterForm(UserCreationForm):
         role = self.cleaned_data.get('role')
         if role == 'landlord':
             user.app_level_role = 'landlord'
-        elif role == 'tenant':
+        else:
+            user.password = "Tenant@123"
             user.app_level_role = "tenant"
         if commit:
             user.save()
@@ -62,3 +65,16 @@ class CustomLoginForm(AuthenticationForm):
             'placeholder': 'Enter Password'
         })
     )
+
+
+class CreatePropertyForm(forms.ModelForm):
+    class Meta:
+        model = Property
+        fields = ['name', 'address', 'description', 'image', 'number_of_units']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Property Name'}),
+            'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Property Address'}),
+            'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Property Description'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
+            'number_of_units': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter Number of Unit'}),
+        }

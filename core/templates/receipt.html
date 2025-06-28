@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Receipt</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .receipt-container {
+            width: 60%;
+            margin: auto;
+            border: 1px solid #333;
+            padding: 20px;
+            box-shadow: 2px 2px 8px #ccc;
+        }
+        h2, p {
+            text-align: center;
+        }
+        .print-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        @media print {
+            .print-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <h2>Rent Payment Receipt</h2>
+        <p><strong>Tenant:</strong> {{ payment.unit.tenantprofile.user.first_name }} {{ payment.unit.tenantprofile.user.first_name }}</p>
+        <p><strong>Property:</strong> {{ payment.unit.property.name }}</p>
+        <p><strong>Unit:</strong> {{ payment.unit.unit_number }}</p>
+        <p><strong>Amount Paid:</strong> ₦{{ payment.amount }}</p>
+        <p><strong>Date:</strong> {{ payment.created_at }}</p>
+        <p><strong>Transaction Ref:</strong> {{ payment.transaction_reference }}</p>
+        <p><strong>Status:</strong> {{ payment.payment_status }}</p>
+
+        <button class="print-btn" onclick="window.print()">🖨️ Print Receipt</button>
+    </div>
+</body>
+</html>

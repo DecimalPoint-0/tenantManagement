@@ -57,9 +57,21 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
     
 
+class PropertyType(models.Model):
+    """Model for property type"""
+
+    name = models.CharField(max_length=255)
+    description = models.TextField(null=True,blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class Property(models.Model):
     landlord = models.ForeignKey(User, on_delete=models.CASCADE, related_name='properties')
     name = models.CharField(max_length=100)
+    type = models.ForeignKey(PropertyType, on_delete=models.CASCADE, related_name='property_type', blank=True, null=True)
     address = models.TextField()
     description = models.TextField(blank=True)
     image = models.FileField(upload_to='property', null=True)
@@ -91,7 +103,7 @@ class TenantProfile(models.Model):
     emergency_contact = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return f"{self.user.username}'s Tenant Profile"
+        return f"{self.user.first_name}'s Tenant Profile"
 
 
 class RentPayment(models.Model):
@@ -102,15 +114,17 @@ class RentPayment(models.Model):
     ]
 
     tenant = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'is_tenant': True})
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
+    unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='rent_payment')
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_date = models.DateField(default=timezone.now)
     payment_for_month = models.CharField(max_length=20)  # E.g., 'June 2025'
     payment_status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='PENDING')
     receipt_file = models.FileField(upload_to='receipts/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now=True)
+    transaction_reference = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.tenant.username} - {self.payment_for_month} - {self.payment_status}"
+        return f"{self.tenant.email} - {self.payment_for_month} - {self.payment_status}"
 
 
 class TenantReport(models.Model):
@@ -143,3 +157,15 @@ class LeaseAgreement(models.Model):
 
     def __str__(self):
         return f"Lease for {self.tenant.first_name} [{self.status}]"
+    
+
+class SystemSetting(models.Model):
+    """Model for general system settings"""
+    name = models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(max_length=255, null=True, blank=True)
+    contact = models.CharField(max_length=20, null=True, blank=True)
+    cover_img = models.ImageField(upload_to='systemSetting')
+    about_content = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.name}"

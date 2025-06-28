@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday, My Love ❤️‍🔥</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #1f1c2c, #928dab);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      overflow: hidden;
+      max-height: 100vh;
+    }
+
+    .card {
+      max-width: 500px;
+      margin: 60px auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .card img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .name {
+      font-size: 2rem;
+      margin: 20px 0 10px;
+      font-weight: bold;
+    }
+
+    .message {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      padding: 0 10px;
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(0.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <img src="./imag1.png" alt="Birthday Person"> <!-- Replace with your image -->
+    <div class="name"> Adeola <span style="color: rgb(114, 255, 33);">Halimah</span> Adeyemi ❤️</div>
+    <div class="message">
+      Happy Birthday, my digital darling! <br>
+      In the infinite loop of my heart, you’re the only variable that never changes. <br>
+      May your day be compiled with love and debugged of worries. 💻💖
+    </div>
+  </div>
+
+  <div class="hearts" id="hearts"></div>
+
+  <script>
+    const heartsContainer = document.getElementById("hearts");
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = "❤️ 🌷";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 16 + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      heartsContainer.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 300);
+  </script>
+
+</body>
+</html>
